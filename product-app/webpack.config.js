@@ -37,6 +37,10 @@ module.exports = {
       filename: "remoteEntry.js",
       exposes: {
         "./ProductList": "./src/ProductList",
+        "./ProductApp": "./src/App",
+      },
+      remotes: {
+        hostApp: "hostApp@http://localhost:3000/remoteEntry.js",
       },
       shared: {
         react: {
@@ -56,5 +60,6 @@ module.exports = {
   devServer: {
     port: 3001,
     hot: true,
+    historyApiFallback: true,
   },
 };

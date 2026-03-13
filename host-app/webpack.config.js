@@ -1,11 +1,17 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
+const path = require("path");
 
 module.exports = {
   mode: "development",
   entry: "./src/index.js",
   devServer: {
     port: 3000,
+    hot: true,
+    historyApiFallback: true,
+    static: {
+      directory: path.join(__dirname, "public"),
+    },
   },
   output: {
     publicPath: "auto",
@@ -35,9 +41,16 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       name: "hostApp",
+      filename: "remoteEntry.js",
       remotes: {
         productApp: "productApp@http://localhost:3001/remoteEntry.js",
         cartApp: "cartApp@http://localhost:3002/remoteEntry.js",
+        hostApp: "hostApp@http://localhost:3000/remoteEntry.js",
+      },
+      exposes: {
+        "./useCounter": "./src/store/useCounter",
+        "./eventBus": "./src/store/event",
+        "./productCountRxjs": "./src/store/rsjx",
       },
       shared: {
         react: { singleton: true },

@@ -5,7 +5,7 @@ const App = () => {
   return (
     <div>
       <h1>Product Microfrontend</h1>
-      <ProductList />
+      <ProductList message="Welcome to the Product App! props" />
     </div>
   );
 };
