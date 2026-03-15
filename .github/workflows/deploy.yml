@@ -1,0 +1,33 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set image tag
+        run: echo "TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build and push images
+        run: |
+          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
+          docker build -t jerinirowz/mf-host:$TAG ./host
+          docker build -t jerinirowz/mf-product:$TAG ./product
+          docker build -t jerinirowz/mf-cart:$TAG ./cart
+          docker push jerinirowz/mf-host:$TAG
+          docker push jerinirowz/mf-product:$TAG
+          docker push jerinirowz/mf-cart:$TAG
+
+      - name: Deploy to cluster
+        run: |
+          # Update image tags in k8s manifests
+          sed -i "s|:latest|:$TAG|g" k8s/*.yaml
+          kubectl apply -f k8s/
+          kubectl rollout status deployment/host-deployment
+          kubectl rollout status deployment/product-deployment
+          kubectl rollout status deployment/cart-deployment

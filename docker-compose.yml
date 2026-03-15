@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  host:
+    build: ./host-app
+    image: jerinirowz/mf-host:latest
+    ports:
+      - "3000:80"
+
+  product:
+    build: ./product-app
+    image: jerinirowz/mf-product:latest
+    ports:
+      - "3001:80"
+
+  cart:
+    build: ./cart-app
+    image: jerinirowz/mf-cart:latest
+    ports:
+      - "3002:80"

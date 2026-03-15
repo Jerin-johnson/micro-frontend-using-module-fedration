@@ -6,7 +6,7 @@ module.exports = {
   mode: "development",
   entry: "./src/index.js",
   output: {
-    publicPath: "http://localhost:3002/",
+    publicPath: "auto",
     clean: true,
   },
   resolve: {
@@ -40,7 +40,7 @@ module.exports = {
         "./CartApp": "./src/App",
       },
       remotes: {
-        hostApp: "hostApp@http://localhost:3000/remoteEntry.js",
+        hostApp: "hostApp@http://mfe.local/remoteEntry.js",
         // productApp: "productApp@http://localhost:3001/remoteEntry.js",
       },
       shared: {

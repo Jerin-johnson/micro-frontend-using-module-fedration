@@ -43,9 +43,9 @@ module.exports = {
       name: "hostApp",
       filename: "remoteEntry.js",
       remotes: {
-        productApp: "productApp@http://localhost:3001/remoteEntry.js",
-        cartApp: "cartApp@http://localhost:3002/remoteEntry.js",
-        hostApp: "hostApp@http://localhost:3000/remoteEntry.js",
+        productApp: "productApp@http://mfe.local/product/remoteEntry.js",
+        cartApp: "cartApp@http://mfe.local/cart/remoteEntry.js",
+        hostApp: "hostApp@http://mfe.local/remoteEntry.js",
       },
       exposes: {
         "./useCounter": "./src/store/useCounter",
